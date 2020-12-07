@@ -46,13 +46,14 @@ public class PersonEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     public Response update(@PathParam("id") long id, Person person) {
-        person.id = id;
-        Person updated = personDao.update(person);
+        Person updated = findById(id);
         if(updated != null) {
+            updated.birth = person.birth;
+            updated.name = person.name;
+            updated.status = person.status;
             return Response.ok().entity(updated).build();
-        } else {
-            return Response.status(404).build();
-        }
+        } 
+        return Response.ok().entity(updated).build();
     }
 
     @DELETE
@@ -61,12 +62,7 @@ public class PersonEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     public Response delete(@PathParam("id") long id, Person person){
-        person.id = id;
-        Person deletedPerson = personDao.deletePerson(person);
-        if(deletedPerson != null) {
-            return Response.noContent().build();
-        } else {
-            return Response.status(404).build();
-        }
+        Person deletedPerson = findById(id);
+        return Response.noContent().build();
     }
 }
