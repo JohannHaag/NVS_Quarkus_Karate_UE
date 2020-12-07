@@ -27,6 +27,17 @@ public class PersonEndpoint {
                 .ok(person)
                 .build();
     }
+
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findone(@PathParam("id") long id) {
+        Person person = personDao.findById(id);
+        return Response
+                .ok(person)
+                .build();
+    }
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)

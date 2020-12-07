@@ -17,14 +17,14 @@ public class InitBean {
     @Inject
     PersonDao personDao;
 
-    private static final Logger LOG = Logger.getLogger(InitBean.class.getSimpleName());
+    @Inject
+    AddressDao addressDao;
 
     @Transactional
     public void init(@Observes StartupEvent event) {
-        LOG.info(InitBean.class.getCanonicalName() + "******************");
-
         Person chris = new Person("Christian", LocalDate.of(2000,12,17),"ledig");
         personDao.persist(chris);
+        Address address = new Address("Hyrtlstraße 2ß", "Traun", 4050,chris);
+        addressDao.persist(address);
     }
-
 }
