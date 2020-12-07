@@ -51,7 +51,6 @@ public class PersonEndpoint {
             updated.birth = person.birth;
             updated.name = person.name;
             updated.status = person.status;
-            return Response.ok().entity(updated).build();
         } 
         return Response.ok().entity(updated).build();
     }
