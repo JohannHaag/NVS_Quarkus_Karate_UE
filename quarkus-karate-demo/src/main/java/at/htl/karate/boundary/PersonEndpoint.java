@@ -46,7 +46,7 @@ public class PersonEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     public Response update(@PathParam("id") long id, Person person) {
-        Person updated = findById(id);
+        Person updated = personDao.findById(id);
         if(updated != null) {
             updated.birth = person.birth;
             updated.name = person.name;
@@ -61,7 +61,8 @@ public class PersonEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     public Response delete(@PathParam("id") long id, Person person){
-        Person deletedPerson = findById(id);
+        Person deletedPerson = personDao.findById(id);
+        personDao.delete(deletedPerson);
         return Response.noContent().build();
     }
 }
