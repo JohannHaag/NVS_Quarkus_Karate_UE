@@ -27,14 +27,14 @@ Feature: Somebody will be greeting
 
   Scenario: PUT a USER
 
-    Given path '/person/3'
+    Given path '/person/10'
     And request {birth:'2000-12-18', name:'Christiano', status:'Noever Ledig'}
     When method PUT
     Then status 200
 
   Scenario: DELETE a USER
 
-    Given path '/person/3'
+    Given path '/person/10'
     And request {birth:'2000-12-18', name:'Christiano', status:'Noever Ledig'}
     When method DELETE
     Then status 204
