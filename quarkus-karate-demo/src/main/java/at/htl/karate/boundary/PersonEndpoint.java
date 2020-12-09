@@ -4,12 +4,13 @@ import at.htl.karate.control.PersonDao;
 import at.htl.karate.model.Person;
 
 import javax.inject.Inject;
+import javax.json.JsonValue;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
-import java.time.LocalDate;
+import java.util.List;
 
 @Path("/person")
 public class PersonEndpoint {
@@ -20,19 +21,34 @@ public class PersonEndpoint {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAll() {
-        Person person = personDao
-                .find("name","Christian")
-                .firstResult();
+        List<Person> personList = personDao.findAll().list();
         return Response
-                .ok(person)
+                .ok(personList)
+                .build();
+    }
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findByJson(JsonValue persons) {
+        return Response
+                .ok(personDao.saveByJson(persons.asJsonArray()))
                 .build();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findone(@PathParam("id") long id) {
+    public Response findById(@PathParam("id") long id) {
         Person person = personDao.findById(id);
+        return Response
+                .ok(person)
+                .build();
+    }
+
+    @GET
+    @Path("/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findByName(@PathParam("name") String name) {
+        Person person = personDao.findByName(name);
         return Response
                 .ok(person)
                 .build();
@@ -42,8 +58,8 @@ public class PersonEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public Response create() {
-        Person person = new Person("Christiane", LocalDate.parse("2000-12-17"),"not ledig");
+    public Response create(Person person1) {
+        Person person = personDao.save(person1);
         personDao.persist(person);
         return Response
                 .status(Response.Status.CREATED)
