@@ -6,7 +6,11 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "MY_ADDRESS")
-public class Address extends PanacheEntity {
+public class Address  {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public long id;
 
     @Column(name = "A_STREET")
     String street;

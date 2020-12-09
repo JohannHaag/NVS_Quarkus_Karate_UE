@@ -14,7 +14,11 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "C_CourseType")
-public class CourseType extends PanacheEntity {
+public class CourseType  {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public long id;
 
     @Column(name = "C_Name")
     public String name;

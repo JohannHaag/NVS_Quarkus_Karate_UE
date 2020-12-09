@@ -8,7 +8,11 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "C_Course")
-public class Course extends PanacheEntity {
+public class Course {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public long id;
     @Column(name = "C_Name")
     String name;
     @Column(name = "C_Price")

@@ -22,14 +22,14 @@ Feature: Somebody will be greeting
 
   Scenario: PUT a Coursetype
 
-    Given path '/coursetype/11'
+    Given path '/coursetype/4'
     And request {abbr:'wwweee', name:'Der Welpenkurs'}
     When method PUT
     Then status 200
 
   Scenario: DELETE a Coursetype
 
-    Given path '/coursetype/11'
+    Given path '/coursetype/4'
     And request {abbr:'wwweee', name:'Der Welpenkurs'}
     When method DELETE
     Then status 204
