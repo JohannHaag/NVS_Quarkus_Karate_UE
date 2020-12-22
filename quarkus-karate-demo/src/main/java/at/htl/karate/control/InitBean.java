@@ -2,6 +2,8 @@ package at.htl.karate.control;
 
 import at.htl.karate.entity.Course;
 import at.htl.karate.entity.CourseType;
+import at.htl.karate.entity.Dog;
+import at.htl.karate.entity.Person;
 import io.quarkus.runtime.StartupEvent;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -32,6 +34,9 @@ public class InitBean {
     @Inject
     CourseDao courseDao;
 
+    @Inject
+    DogDao dogDao;
+
 
     @Transactional
     public void init(@Observes StartupEvent event) {
@@ -39,14 +44,28 @@ public class InitBean {
     }
 
     private void initDb() {
-        CourseType welpenkurs = new CourseType("Welpenkurs", "w");
-        CourseType begleithunde1 = new CourseType("Begleithunde1", "bg1");
-        CourseType begleithunde2 = new CourseType("Begleithunde2", "bg2");
-        courseTypeDao.persist(welpenkurs);
-        courseTypeDao.persist(begleithunde1);
-        courseTypeDao.persist(begleithunde2);
-        readCsv();
+
+            Person matt = new Person("Matt", "Murdock");
+            Person mathilda = new Person("Mathilda", "Lando");
+
+            personDao.persist(matt);
+            personDao.persist(mathilda);
+
+            dogDao.persist(new Dog("Timmy", matt));
+            dogDao.persist(new Dog("Tino", matt));
+            dogDao.persist(new Dog("Arko", mathilda));
+            dogDao.persist(new Dog("Rex", mathilda));
+            dogDao.persist(new Dog("Edi", mathilda));
+
+            CourseType welpenkurs = new CourseType("Welpenkurs", "w");
+            CourseType begleithunde1 = new CourseType("Begleithunde1", "bg1");
+            CourseType begleithunde2 = new CourseType("Begleithunde2", "bg2");
+            courseTypeDao.persist(welpenkurs);
+            courseTypeDao.persist(begleithunde1);
+            courseTypeDao.persist(begleithunde2);
+            readCsv();
     }
+
 
     /**
      * Einlesen des csv-Files und speichern in der DB.

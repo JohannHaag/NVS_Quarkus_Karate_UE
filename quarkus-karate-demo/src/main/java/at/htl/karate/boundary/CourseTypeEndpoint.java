@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response;
 import java.net.URI;
 import java.util.List;
 
-@Path("/coursetype")
+@Path("/course_type")
 public class CourseTypeEndpoint {
     @Inject
     CourseTypeDao courseTypeDao;
@@ -49,20 +49,25 @@ public class CourseTypeEndpoint {
         courseTypeDao.persist(courseType1);
         return Response
                 .status(Response.Status.CREATED)
-                .location(URI.create("coursetype/" + courseType1.id))
+                .location(URI.create("course_type/" + courseType1.id))
                 .build();
     }
 
     @PUT
     @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     public Response update(@PathParam("id") long id, CourseType courseType) {
         CourseType updated = courseTypeDao.findById(id);
-        if (updated != null) {
-            updated.name= courseType.name;
+        if (updated== null) {
+            return Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .header("Reason", "courseType with id " + id + " does not exist")
+                    .build();
+        }else{
+            updated.id = courseType.id;
             updated.abbr = courseType.abbr;
+            updated.name= courseType.name;
         }
         return Response.ok().entity(updated).build();
     }
@@ -70,7 +75,6 @@ public class CourseTypeEndpoint {
 
     @DELETE
     @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     public Response delete(@PathParam("id") long id){

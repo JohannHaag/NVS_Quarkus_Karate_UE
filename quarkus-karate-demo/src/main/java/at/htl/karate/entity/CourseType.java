@@ -13,16 +13,14 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "C_CourseType")
+@Table(name = "S_COURSE_TYPE")
 public class CourseType  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
 
-    @Column(name = "C_Name")
     public String name;
-    @Column(name = "C_Abbr")
     public String abbr; // abbreviation
 
     //region Constructors
